@@ -9,13 +9,6 @@ function App() {
   let [title, b] = useState(['여자 코트 추천', '남자 신발 TOP 3', '트렌드 모자']); // => [작성한 string 문자열, <-를 수정하기 위한 데이터]
   let [likeNum, likeUpdate] = useState(0);
 
-  function modifyTitle() {
-    // 복사 : deep copy 해서 수정 (값 공유 X)
-    let newArr = [...title];
-    newArr[0] = '남자 코트 추천';
-    b(newArr);
-}
-
   return (
     // JSX 문법 (HTML 대용)
     <div className="App">
@@ -41,9 +34,21 @@ function App() {
         </li>
       </ul>
 
-      <button type="button" onClick={modifyTitle}>변경</button>
+      <button type="button">상세페이지 Open</button>
+
+      <Modal />
     </div>
   );
+}
+
+function Modal() {
+  return(
+      <div className="modal">
+        <h4>제목</h4>
+        <p>2020-02-02</p>
+        <p>상세내용입니다</p>
+      </div>
+  )
 }
 
 export default App;

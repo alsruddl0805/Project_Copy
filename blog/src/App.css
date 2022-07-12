@@ -27,6 +27,11 @@ body {
   border-bottom: 1px solid #ddd;
 }
 
+.modal {
+  padding: 24px;
+  background-color: #ddd;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
