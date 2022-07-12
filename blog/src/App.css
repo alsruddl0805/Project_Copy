@@ -21,6 +21,9 @@ body {
   padding: 0;
   list-style: none;
   text-align: left;
+}
+
+.list li {
   border-bottom: 1px solid #ddd;
 }
 
