@@ -9,11 +9,19 @@ function App() {
   let [title, b] = useState(['여자 코트 추천', '남자 신발 TOP 3', '트렌드 모자']); // => [작성한 string 문자열, <-를 수정하기 위한 데이터]
   let [likeNum, setLike] = useState([0,0,0]);
   let [modal, setModal] = useState(false);
+  let [nowTitle, setNowTitle] = useState(0);
   
   // .map(콜백함수)
   // [1,2,3].map(function(a) {
   //   console.log(a)
   // })
+
+  function modifyTitle() {
+    // 복사 : deep copy 해서 수정 (값 공유 X)
+    let newArr = [...title];
+    newArr[0] = '남자 코트 추천';
+    b(newArr);
+  }
 
   function likeUpdate(idx) {
     let testLikeArr = [...likeNum];
@@ -51,7 +59,7 @@ function App() {
         [1,2,3].map(function(a, idx) {
           return (
             <li key={idx}>
-              <h3>{title[idx]}
+              <h3 onClick={() => {setModal(!modal); setNowTitle(idx)}}>{title[idx]}
               <span onClick={() => {likeUpdate(idx)}}>👍</span> 
               <span>{likeNum[idx]}</span>
               </h3>
@@ -62,21 +70,21 @@ function App() {
       }
       </ul>
 
-      <button type="button" onClick={() => {setModal(!modal)}}>상세페이지 Open</button>
       {
-        modal === true ? <Modal /> : null
+        modal === true ? <Modal title={title} nowTitle={nowTitle} modifyTitle={modifyTitle}/> : null
       }
 
     </div>
   );
 }
 
-function Modal() {
+function Modal(props) {
   return(
       <div className="modal">
-        <h4>제목</h4>
+        <h4>{props.title[props.nowTitle]}</h4>
         <p>2020-02-02</p>
         <p>상세내용입니다</p>
+        <button type="button" onClick={props.modifyTitle}>제목 바꾸기</button>
       </div>
   )
 }
