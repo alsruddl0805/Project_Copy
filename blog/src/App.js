@@ -8,6 +8,7 @@ function App() {
   */ 
   let [title, b] = useState(['여자 코트 추천', '남자 신발 TOP 3', '트렌드 모자']); // => [작성한 string 문자열, <-를 수정하기 위한 데이터]
   let [likeNum, likeUpdate] = useState(0);
+  let [modal, setModal] = useState(false);
 
   return (
     // JSX 문법 (HTML 대용)
@@ -34,9 +35,12 @@ function App() {
         </li>
       </ul>
 
-      <button type="button">상세페이지 Open</button>
+      <button type="button" onClick={() => {setModal(!modal)}}>상세페이지 Open</button>
 
-      <Modal />
+      {
+        modal === true ? <Modal /> : null
+      }
+
     </div>
   );
 }
