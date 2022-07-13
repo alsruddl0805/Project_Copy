@@ -7,8 +7,19 @@ function App() {
   장점 ) state는 변경되면 HTML이 자동으로 재렌더링이 되기 때문에, 새로고침 없이도 부드럽게 변경 됨
   */ 
   let [title, b] = useState(['여자 코트 추천', '남자 신발 TOP 3', '트렌드 모자']); // => [작성한 string 문자열, <-를 수정하기 위한 데이터]
-  let [likeNum, likeUpdate] = useState(0);
+  let [likeNum, setLike] = useState([0,0,0]);
   let [modal, setModal] = useState(false);
+  
+  // .map(콜백함수)
+  // [1,2,3].map(function(a) {
+  //   console.log(a)
+  // })
+
+  function likeUpdate(idx) {
+    let testLikeArr = [...likeNum];
+    testLikeArr[idx] = testLikeArr[idx] + 1;
+    setLike(testLikeArr);
+  }
 
   return (
     // JSX 문법 (HTML 대용)
@@ -17,7 +28,7 @@ function App() {
         <div>개발 Blog</div>
       </div>
       
-      <ul className="list">
+      {/* <ul className="list">
         <li>
           <h3>
             {title[0]} 
@@ -33,10 +44,25 @@ function App() {
           <h3>{title[2]}</h3>
           <p>2월 17일 발행</p>
         </li>
+      </ul> */}
+
+      <ul className="list">
+      {
+        [1,2,3].map(function(a, idx) {
+          return (
+            <li key={idx}>
+              <h3>{title[idx]}
+              <span onClick={() => {likeUpdate(idx)}}>👍</span> 
+              <span>{likeNum[idx]}</span>
+              </h3>
+              <p>2월 18일 발행</p>
+            </li>
+          )
+        })
+      }
       </ul>
 
       <button type="button" onClick={() => {setModal(!modal)}}>상세페이지 Open</button>
-
       {
         modal === true ? <Modal /> : null
       }
