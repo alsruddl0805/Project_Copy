@@ -91,6 +91,8 @@ function App() {
         modal === true ? <Modal title={title} nowTitle={nowTitle} modifyTitle={modifyTitle}/> : null
       }
 
+      <Profile />
+
     </div>
   );
 }
@@ -104,6 +106,28 @@ function Modal(props) {
         <button type="button" onClick={props.modifyTitle}>제목 바꾸기</button>
       </div>
   )
+}
+
+// class 예전 문법
+class Profile extends React.Component {
+  constructor() {
+    super();
+    this.state = {name: 'Kim', age: 25}
+  }
+
+  changeName = () => {
+    this.setState({name: 'Kwon'})
+  }
+
+  render() {
+    return (
+      <div>
+      <div>프로필 입니당</div>
+      <p>저는 { this.state.name } 입니다.</p>
+      <button onClick={() => { this.changeName() }}>이름 바꾸기</button>
+      </div>
+    )
+  }
 }
 
 export default App;
