@@ -1,12 +1,14 @@
 import './App.css';
+import { useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import bg from './img/001.jpg';
+import data from './data.js';
 
 function App() {
-  return (
-    <div className="App">
+  let [shoes, setShoes] = useState(data);
+
+   return (
+    <div className="App"> 
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="#home">Ming's</Navbar.Brand>
@@ -21,31 +23,29 @@ function App() {
       <div className="main-bg"></div>
       <div className="main-bg-import" style={{'background' : 'no-repeat center/100% url(' + bg + ')', height: '300px'}}></div>
       
-      <Container>
-      <Row>
-        <Col sm={4}>
-        {/* process.env.PUBLIC_URL : public 폴더 내부 이미지 쓰는 권장방식 (서브 경로 사이트를 발행해도 문제되지 않음) */}
-        <img className="colImg" src={process.env.PUBLIC_URL + '/logo192.png'}></img>
-        <p>상품명 1</p>
-        </Col>
-
-        <Col sm={4}>
-        <img className="colImg" src="https://codingapple.com/wp-content/uploads/2022/04/bg.png"></img>
-        <p>상품명 2</p>
-        </Col>
-
-        <Col sm={4}>
-        <img className="colImg" src="https://codingapple.com/wp-content/uploads/2022/04/bg.png"></img>
-        <p>상품명 3</p>
-        </Col>
-        <Col sm={4}>
-        <img className="colImg" src="https://codingapple.com/wp-content/uploads/2022/04/bg.png"></img>
-        <p>상품명 4</p>
-        </Col>      
-      </Row>
-    </Container>
+      <div className="container">
+        <div className="row">
+          {
+            shoes.map((item, i) => {
+              return(
+                <List item={shoes[i]} i={i+1}/>
+              )
+            })
+          }
+        </div>
+      </div>
     </div>
   );
+}
+
+function List(props) {
+  return(
+    <div className="col-md-4">
+      <img src={"https://codingapple1.github.io/shop/shoes" + props.i + ".jpg"} width="80%" />
+      <h4>{ props.item.title }</h4>
+      <p>{ props.item.price }</p>
+    </div> 
+  )
 }
 
 export default App;

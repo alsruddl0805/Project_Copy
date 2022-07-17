@@ -2,16 +2,6 @@
   text-align: center;
 }
 
-.main-bg {
-  /* height: 300px;
-  background: no-repeat center/100% url("./001.jpg"); */
-}
-
-.colImg {
-  width: 150px;
-  height: 150px;
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
