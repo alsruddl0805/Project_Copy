@@ -2,12 +2,23 @@ import './App.css';
 import { useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import bg from './img/001.jpg';
-import { listData, Detail } from './routes/data.js';
+import listData from './routes/data.js';
+import Detail from './routes/detail.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 
 function App() {
   let [shoes, setShoes] = useState(listData);
   let navigate = useNavigate(); // 페이지 이동을 도와주는 함수
+
+  function sortList() {
+    let sortArr = [...shoes];
+    sortArr.sort((a, b) => {
+      if(a.title > b.title) return 1;
+      if(a.title === b.title) return 0;
+      if(a.title < b.title) return -1;
+    });
+    setShoes(sortArr);
+  }
 
    return (
     <div className="App"> 
@@ -27,6 +38,7 @@ function App() {
         <Route path="/" element={<div className="main-bg-import" style={{'background' : 'no-repeat center/100% url(' + bg + ')', height: '300px'}}></div>} />
         <Route path="/shop" element={
         <div className="container">
+        <button type="button" onClick={() => { sortList() }}>정렬</button>
         <div className="row">
           {
             shoes.map((item, i) => {
@@ -37,7 +49,7 @@ function App() {
           }
         </div>
       </div>} />
-      <Route path="/detail" element={<Detail/>} />
+      <Route path="/detail/:id " element={<Detail shoes={shoes}/>} />
 
       {/* 
       Nested Route (태그 내부 경로 연결)
