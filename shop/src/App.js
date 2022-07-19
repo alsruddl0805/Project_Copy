@@ -49,7 +49,7 @@ function App() {
           }
         </div>
       </div>} />
-      <Route path="/detail/:id " element={<Detail shoes={shoes}/>} />
+      <Route path="/detail/:id" element={<Detail shoes={shoes}/>} />
 
       {/* 
       Nested Route (태그 내부 경로 연결)
@@ -93,10 +93,12 @@ function About() {
 }
 
 function List(props) {
+  let [id, setId] = useState(0);
+  
   return(
     <div className="col-md-4">
-      <Link to="/detail" >
-      <img src={"https://codingapple1.github.io/shop/shoes" + props.i + ".jpg"} width="80%" />
+      <Link to={"/detail/" + props.item.id} >
+      <img src={"https://codingapple1.github.io/shop/shoes" + (props.item.id + 1) + ".jpg"} width="80%" />
       <h4>{ props.item.title }</h4>
       <p>{ props.item.price }</p>
       </Link>
