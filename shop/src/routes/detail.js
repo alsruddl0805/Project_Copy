@@ -1,25 +1,25 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from 'styled-components';
 
-// 스타일이 입혀진 컴포넌트
-/*
-[ 장점 ]
-1. css 파일에 직접 입력하지 않아도 됨
-2. 스타일이 다른 js파일로 오염되지 않음
- => 오염되지 않는 css 작명 : ex ) App.module.css (js파일명.module.css)
-3. 로딩시간이 단축 됨
-4. 기존 스타일 복사 가능
+// 예전 문법 기준
+// class Detail2 extends React.Component {
+//   componentDidMount(){
+//     //Detail2 컴포넌트가 로드되고나서 실행할 코드
+//   }
+//   componentDidUpdate(){
+//     //Detail2 컴포넌트가 업데이트 되고나서 실행할 코드
+//   }
+//   componentWillUnmount(){
+//     //Detail2 컴포넌트가 삭제되기전에 실행할 코드
+//   }
+// }
 
-[ 단점 ]
-1. js 파일 복잡해짐
-2. 중복 스타일 컴포넌트간 import 시에 기존 css와 다를바 없음
-*/
 let PinkBtn = styled.button`
   background: ${ props => props.bg };
   color: ${ props => props.bg == 'blue' ? 'white' : 'black' };
   padding: 10px;
 `
-
 // 복사
 let newBtn = styled.button(PinkBtn);
 
@@ -29,14 +29,32 @@ let BlackBox = styled.div`
 `
 
 function Detail(props) {
+    let [count, setCount] = useState(0);
+    let [alert, setAlert] = useState(true);
     let {id} = useParams();
     let reArr = props.shoes.filter((i) => i.id == id)[0];
     
+    // 현재 문법 기준 (function 외부에서도 가능)
+    /*
+    useEffect 사용 이유 : html 렌더링 후 동작하기 때문에 
+    ex. 연산, 서버에서 데이터 가져올때, 타이머 등
+    */
+    useEffect(() => {
+      // mount, update 실행 시 여기 코드 실행 (디버깅 시 두번 동작 싫으면 index.js -> React.strictMode 제거)
+      // 페이지 방문 2초 후 박스 미노출
+      let a = setTimeout(() => { setAlert(false) }, 2000);
+    
+      // clean up function : useEffect 내부 코드 중 가장 먼저 실행
+      return () => {
+        console.log('먼저 실행');
+        clearTimeout(a);
+      }
+    }, []) // [] 실행조건 넣을 수 있는 곳 (아무것도 안넣으면 1회만 실행하고 그 후는 실행 X)
+
     return (
       <div className="container">
-      <PinkBtn bg="pink">핑크색 버튼</PinkBtn>
-        <PinkBtn bg="blue">파란색 버튼</PinkBtn>
-        <BlackBox>검은색 div 박스</BlackBox>
+        {alert == true ? <div className="show-box">2초 이내 구매시 할인</div> : null}
+        <button onClick={() => {setCount(count+1)}}>버튼{count}</button>
         <div className="row">
           <div className="col-md-6">
             <img src={"https://codingapple1.github.io/shop/shoes" + (reArr.id + 1) + ".jpg"} width="100%" />
