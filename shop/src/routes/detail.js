@@ -35,6 +35,7 @@ function Detail(props) {
     let {id} = useParams();
     let reArr = props.shoes.filter((i) => i.id == id)[0];
     let [tab, setTab] = useState(0);
+    let [fade, setFade] = useState('');
     
     // 현재 문법 기준 (function 외부에서도 가능)
     /*
@@ -44,17 +45,19 @@ function Detail(props) {
     useEffect(() => {
       // mount, update 실행 시 여기 코드 실행 (디버깅 시 두번 동작 싫으면 index.js -> React.strictMode 제거)
       // 페이지 방문 2초 후 박스 미노출
-      let a = setTimeout(() => { setAlert(false) }, 2000);
+      let a = setTimeout(() => { setAlert(false); }, 2000);
+      let b = setTimeout(() => { setFade('end'); }, 100);
     
       // clean up function : useEffect 내부 코드 중 가장 먼저 실행
       return () => {
-        console.log('먼저 실행');
+        setFade('');
         clearTimeout(a);
+        clearTimeout(b);
       }
     }, []) // [] 실행조건 넣을 수 있는 곳 (아무것도 안넣으면 1회만 실행하고 그 후는 실행 X)
 
     return (
-      <div className="container">
+      <div className={`container start ${fade}`}>
         {alert == true ? <div className="show-box">2초 이내 구매시 할인</div> : null}
         <button onClick={() => {setCount(count+1)}}>버튼{count}</button>
         <div className="row">
@@ -92,7 +95,28 @@ function Detail(props) {
         arr.push(<div>내용 {idx} Content 입니당</div>)
       })
     }
-    return arr[tab];
+
+    let [fade, setFade] = useState('');
+    useEffect(() => {
+      /*
+      clean up function 이 동작하는데 왜 이렇게 시간을 줘야 하는지?
+      => 리액트의 automatic batching (18버전 이상) 기능 때문이다.
+      state 변경함수가 근처에 있다 -> 최종적으로 합쳐서 마지막에 딱 한번만 실행시켜준다. 
+      결론은 하나로 합쳐서 'end'가 붙게 되는 것
+      */
+      let a = setTimeout(() => { setFade('end') }, 100)
+
+      return () => {
+        clearTimeout(a);
+        setFade('');
+      }
+    }, [tab])  
+
+    return (
+    <div className={`start ${fade}`}>
+      {arr[tab]}
+    </div>
+    )
   }
 
   export default Detail;
