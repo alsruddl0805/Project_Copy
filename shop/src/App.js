@@ -5,10 +5,14 @@ import bg from './img/001.jpg';
 import listData from './routes/data.js';
 import Detail from './routes/detail.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
+import axios from 'axios';
 
 function App() {
   let [shoes, setShoes] = useState(listData);
   let navigate = useNavigate(); // 페이지 이동을 도와주는 함수
+  let [btnCnt, setBtnCnt] = useState(1);
+  let [url, setUrl] = useState('https://codingapple1.github.io/shop/data2.json');
+  let [urlBtn, setUrlBtn] = useState(true); 
 
   function sortList() {
     let sortArr = [...shoes];
@@ -18,6 +22,12 @@ function App() {
       if(a.title < b.title) return -1;
     });
     setShoes(sortArr);
+  }
+
+  function setRoute() {
+    setBtnCnt(btnCnt + 1);
+    if (btnCnt > 0) setUrl('https://codingapple1.github.io/shop/data3.json');
+    if (btnCnt == 2) setUrlBtn(false);
   }
 
    return (
@@ -43,11 +53,38 @@ function App() {
           {
             shoes.map((item, i) => {
               return(
-                <List item={shoes[i]} i={i+1} key={i}/>
+                <List item={item} i={i+1} key={i}/>
               )
             })
           }
         </div>
+
+        {
+          urlBtn == true ? <button onClick={() => {
+            setRoute();
+            axios.get(url)
+            .then((res) => {
+              console.log(url, res.data);
+              let resData = [...shoes, ...res.data];
+              setShoes(resData);
+            })
+            .catch((err) => {
+              console.log('err', err);
+            })
+
+            // 서버로 데이터 보내는 방식
+            axios.post('/test', {name: 'kim'})
+
+            // ajax 요청 여러개 한번에 하는 법
+            Promise.all([axios.get('/url1'), axios.get('/url2')])
+            .then((res) => {
+              console.log(res);
+            })
+
+            // fetch (JS문법으로 axios 설치하지 않아도 사용 가능함 But JSON 변환해주지 않음)
+          }}>상품 더보기</button> : null
+        }
+        
       </div>} />
       <Route path="/detail/:id" element={<Detail shoes={shoes}/>} />
 
@@ -71,6 +108,12 @@ function App() {
       </Routes>
     </div>
   );
+}
+
+function roading() {
+  return (
+    <div>로딩중 입니당 !</div> 
+  )
 }
 
 function Event() {
