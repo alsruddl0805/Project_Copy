@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import bg from './img/001.jpg';
 import listData from './routes/data.js';
@@ -7,8 +7,11 @@ import Detail from './routes/detail.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
 
+let Context1 = createContext();
+
 function App() {
   let [shoes, setShoes] = useState(listData);
+  let [stock, setStock] = useState([10,11,12]);
   let navigate = useNavigate(); // 페이지 이동을 도와주는 함수
   let [btnCnt, setBtnCnt] = useState(1);
   let [url, setUrl] = useState('https://codingapple1.github.io/shop/data2.json');
@@ -86,7 +89,11 @@ function App() {
         }
         
       </div>} />
-      <Route path="/detail/:id" element={<Detail shoes={shoes}/>} />
+      <Route path="/detail/:id" element={
+        <Context1.Provider value={{shoes, stock}}>
+          <Detail shoes={shoes}/> {/* 이 안의 모든 컴포넌트는 전부 state 사용 가능*/}
+        </Context1.Provider>
+      } />
 
       {/* 
       Nested Route (태그 내부 경로 연결)

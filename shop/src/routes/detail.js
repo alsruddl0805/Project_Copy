@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from 'styled-components';
 import { Nav, Tab } from 'react-bootstrap';
+import Context1 from './../App.js';
 
 // 예전 문법 기준
 // class Detail2 extends React.Component {
@@ -89,14 +90,15 @@ function Detail(props) {
   }
 
   function TabContent({tab}) {
+    let [fade, setFade] = useState('');
+    let {shoes, stock} = useContext(Context1);
     let arr = [];
     {
       [1,2,3].map((i, idx) => {
-        arr.push(<div>내용 {idx} Content 입니당</div>)
+        arr.push(<div>{shoes[0].title} 의 재고는 {stock[0]} 개 입니당</div>)
       })
     }
 
-    let [fade, setFade] = useState('');
     useEffect(() => {
       /*
       clean up function 이 동작하는데 왜 이렇게 시간을 줘야 하는지?
