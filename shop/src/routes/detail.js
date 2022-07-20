@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from 'styled-components';
+import { Nav, Tab } from 'react-bootstrap';
 
 // 예전 문법 기준
 // class Detail2 extends React.Component {
@@ -33,6 +34,7 @@ function Detail(props) {
     let [alert, setAlert] = useState(true);
     let {id} = useParams();
     let reArr = props.shoes.filter((i) => i.id == id)[0];
+    let [tab, setTab] = useState(0);
     
     // 현재 문법 기준 (function 외부에서도 가능)
     /*
@@ -66,8 +68,31 @@ function Detail(props) {
             <button className="btn btn-danger">주문하기</button> 
           </div>
         </div>
+
+        <Nav variant="tabs"  defaultActiveKey="link0">
+            <Nav.Item>
+              <Nav.Link eventKey="link0" onClick={() => {setTab(0)}}>버튼0</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="link1" onClick={() => {setTab(1)}}>버튼1</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="link2" onClick={() => {setTab(2)}}>버튼2</Nav.Link>
+            </Nav.Item>
+        </Nav>
+        <TabContent tab={tab} />
       </div> 
     )
+  }
+
+  function TabContent({tab}) {
+    let arr = [];
+    {
+      [1,2,3].map((i, idx) => {
+        arr.push(<div>내용 {idx} Content 입니당</div>)
+      })
+    }
+    return arr[tab];
   }
 
   export default Detail;
