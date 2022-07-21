@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from 'styled-components';
 import { Nav, Tab } from 'react-bootstrap';
-import Context1 from './../App.js';
+import Context1 from '../App.js';
 
 // 예전 문법 기준
 // class Detail2 extends React.Component {

@@ -2,10 +2,11 @@ import './App.css';
 import { createContext, useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import bg from './img/001.jpg';
-import listData from './routes/data.js';
-import Detail from './routes/detail.js';
+import listData from './routes/Data.js';
+import Detail from './routes/Detail.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
+import Cart from './routes/Cart.js';
 
 let Context1 = createContext();
 
@@ -40,7 +41,7 @@ function App() {
           <Navbar.Brand onClick={() => {navigate('/')}}>Ming's</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link onClick={() => {navigate('/shop')}}>SHOP</Nav.Link>
-            <Nav.Link href="#cart">CART</Nav.Link>
+            <Nav.Link onClick={() => {navigate('/cart')}}>CART</Nav.Link>
             <Nav.Link href="#mypage">MYPAGE</Nav.Link>
             <Nav.Link onClick={() => {navigate('/about')}}>ABOUT</Nav.Link>
           </Nav>
@@ -94,6 +95,8 @@ function App() {
           <Detail shoes={shoes}/> {/* 이 안의 모든 컴포넌트는 전부 state 사용 가능*/}
         </Context1.Provider>
       } />
+
+      <Route path="/cart" element={<Cart/>}></Route>
 
       {/* 
       Nested Route (태그 내부 경로 연결)
