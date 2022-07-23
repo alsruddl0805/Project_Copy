@@ -1,4 +1,4 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit'
+import { configureStore, createSlice } from '@reduxjs/toolkit' // redux 개선버전 = redux/toolkit
 
 let user = createSlice({ // useState() 와 같은 역할
     name: 'user', // state name
@@ -24,8 +24,25 @@ let cartItem = createSlice({
     initialState: [
         {id : 0, name : 'White and Black', count : 2},
         {id : 2, name : 'Grey Yordan', count : 1}
-      ]
+    ], 
+    reducers: {
+        changeCnt(state, action) {
+            let num = state.findIndex((i) => {return action.payload == i.id})
+            state[num].count++;
+        },
+        addList(state, action) {
+            // 중복이면 changeCnt 로 넘기기
+            let item = state.filter((i) => action.payload.id == i.id).length;
+            if (item !== 0) {
+                state[action.payload.id].count++;
+            } else {
+                state.push(action.payload);
+            }
+        }
+    }
 })
+
+export let { changeCnt, addList } = cartItem.actions;
 
 export default configureStore({
   reducer: {

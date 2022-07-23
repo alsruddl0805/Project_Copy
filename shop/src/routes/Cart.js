@@ -2,10 +2,10 @@ import { useReducer } from 'react';
 import { Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { changeName } from './../store.js';
+import { changeName, changeCnt } from './../store.js';
 
 let CustomButton = styled.button`
-    background-color: #000;
+    background-color: ${props => props.bg};
     color: #fff;
 `
 
@@ -37,7 +37,10 @@ function Cart() {
                             <td>{idx + 1}</td>
                             <td>{i.name}</td>
                             <td>{i.count}</td>
-                            <td><CustomButton onClick={() => { dispatch(changeName()) }}>변경 버튼</CustomButton></td>
+                            <td>
+                                <CustomButton bg={'black'} onClick={() => { dispatch(changeName()) }}>변경 버튼</CustomButton>
+                                <CustomButton bg={'pink'} onClick={() => { dispatch(changeCnt(i.id)) }}>수량 버튼</CustomButton>
+                            </td>
                             </tr>
                         )
                     })

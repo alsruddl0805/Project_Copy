@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import styled from 'styled-components';
 import { Nav, Tab } from 'react-bootstrap';
 import Context1 from '../App.js';
+import { addList } from './../store.js';
+import { useDispatch } from "react-redux";
 
 // 예전 문법 기준
 // class Detail2 extends React.Component {
@@ -37,6 +39,7 @@ function Detail(props) {
     let reArr = props.shoes.filter((i) => i.id == id)[0];
     let [tab, setTab] = useState(0);
     let [fade, setFade] = useState('');
+    let dispatch = useDispatch();
     
     // 현재 문법 기준 (function 외부에서도 가능)
     /*
@@ -69,7 +72,7 @@ function Detail(props) {
             <h4 className="pt-5">{reArr.title}</h4>
             <p>{reArr.content}</p>
             <p>{reArr.price}원</p>
-            <button className="btn btn-danger">주문하기</button> 
+            <button className="btn btn-danger" onClick={() => {dispatch(addList({id: reArr.id + 3, name: reArr.title, count: 1}))}}>주문하기</button> 
           </div>
         </div>
 
@@ -91,13 +94,7 @@ function Detail(props) {
 
   function TabContent({tab}) {
     let [fade, setFade] = useState('');
-    let {shoes, stock} = useContext(Context1);
     let arr = [];
-    {
-      [1,2,3].map((i, idx) => {
-        arr.push(<div>{shoes[0].title} 의 재고는 {stock[0]} 개 입니당</div>)
-      })
-    }
 
     useEffect(() => {
       /*
