@@ -1,5 +1,5 @@
 import './App.css';
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import bg from './img/001.jpg';
 import listData from './routes/Data.js';
@@ -17,6 +17,13 @@ function App() {
   let [btnCnt, setBtnCnt] = useState(1);
   let [url, setUrl] = useState('https://codingapple1.github.io/shop/data2.json');
   let [urlBtn, setUrlBtn] = useState(true); 
+
+
+  useEffect(()=>{
+    if (!localStorage.getItem('watched')) {
+      localStorage.setItem('watched', JSON.stringify([]))
+    }
+  },[]) 
 
   function sortList() {
     let sortArr = [...shoes];

@@ -51,7 +51,13 @@ function Detail(props) {
       // 페이지 방문 2초 후 박스 미노출
       let a = setTimeout(() => { setAlert(false); }, 2000);
       let b = setTimeout(() => { setFade('end'); }, 100);
-    
+
+      let arr = JSON.parse(localStorage.getItem('watched'));
+      arr.push(reArr.id);
+      arr = new Set(arr);
+      arr = Array.from(arr);
+      localStorage.setItem('watched', JSON.stringify(arr));
+
       // clean up function : useEffect 내부 코드 중 가장 먼저 실행
       return () => {
         setFade('');
