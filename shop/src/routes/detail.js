@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import styled from 'styled-components';
 import { Nav, Tab } from 'react-bootstrap';
 import Context1 from '../App.js';
-import { addList } from './../store.js';
+import { addList } from '../store.js';
 import { useDispatch } from "react-redux";
 
 // 예전 문법 기준

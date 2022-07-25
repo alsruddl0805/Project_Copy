@@ -7,6 +7,7 @@ import Detail from './routes/Detail.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
 import Cart from './routes/Cart.js';
+import { useQuery } from 'react-query';
 
 let Context1 = createContext();
 
@@ -17,7 +18,10 @@ function App() {
   let [btnCnt, setBtnCnt] = useState(1);
   let [url, setUrl] = useState('https://codingapple1.github.io/shop/data2.json');
   let [urlBtn, setUrlBtn] = useState(true); 
-
+  let result = useQuery('name', ()=>
+    axios.get('https://codingapple1.github.io/userdata.json')
+    .then((a)=>{ return a.data })
+  );
 
   useEffect(()=>{
     if (!localStorage.getItem('watched')) {
@@ -43,6 +47,13 @@ function App() {
 
    return (
     <div className="App"> 
+    
+    <div>
+      { result.isLoading && '로딩중' }
+      { result.error && '에러남' }
+      { result.data && result.data.name }
+    </div>
+
       <Navbar bg="light" variant="light">
         <Container>
           <Navbar.Brand onClick={() => {navigate('/')}}>Ming's</Navbar.Brand>
