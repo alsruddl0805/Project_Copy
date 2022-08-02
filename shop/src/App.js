@@ -1,5 +1,5 @@
 import './App.css';
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useTransition } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import bg from './img/001.jpg';
 import listData from './routes/Data.js';
@@ -10,6 +10,7 @@ import Cart from './routes/Cart.js';
 import { useQuery } from 'react-query';
 
 let Context1 = createContext();
+let a = new Array(10000).fill(0);
 
 function App() {
   let [shoes, setShoes] = useState(listData);
@@ -18,6 +19,10 @@ function App() {
   let [btnCnt, setBtnCnt] = useState(1);
   let [url, setUrl] = useState('https://codingapple1.github.io/shop/data2.json');
   let [urlBtn, setUrlBtn] = useState(true); 
+
+  let [name, setName] = useState('');
+  let [isPending, startTransition] = useTransition();
+
   let result = useQuery('name', ()=>
     axios.get('https://codingapple1.github.io/userdata.json')
     .then((a)=>{ return a.data })
@@ -47,6 +52,25 @@ function App() {
 
    return (
     <div className="App"> 
+
+    <div>
+      {/* 
+      다른 코드들 보다 나중에 처리해줌 
+      근본적인 성능개선이라기보단 특정코드의 실행시점을 뒤로 옮겨주는 것 뿐
+      */}
+
+      <input onChange={(e) => { 
+        startTransition(() => {
+          setName(e.target.value)
+        })
+      }}/>
+      {
+        isPending ? "로딩중임" :
+        a.map(() => {
+          return <div>{name}</div>
+        })
+      }
+    </div>
     
     <div>
       { result.isLoading && '로딩중' }
