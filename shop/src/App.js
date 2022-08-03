@@ -1,5 +1,5 @@
 import './App.css';
-import { createContext, useState, useEffect, useTransition } from 'react';
+import { createContext, useState, useEffect, useTransition, useDeferredValue } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import bg from './img/001.jpg';
 import listData from './routes/Data.js';
@@ -22,6 +22,7 @@ function App() {
 
   let [name, setName] = useState('');
   let [isPending, startTransition] = useTransition();
+  let state1 = useDeferredValue(name);
 
   let result = useQuery('name', ()=>
     axios.get('https://codingapple1.github.io/userdata.json')
@@ -55,19 +56,15 @@ function App() {
 
     <div>
       {/* 
-      다른 코드들 보다 나중에 처리해줌 
-      근본적인 성능개선이라기보단 특정코드의 실행시점을 뒤로 옮겨주는 것 뿐
+      
       */}
 
       <input onChange={(e) => { 
-        startTransition(() => {
           setName(e.target.value)
-        })
       }}/>
       {
-        isPending ? "로딩중임" :
         a.map(() => {
-          return <div>{name}</div>
+          return <div>{state1}</div>
         })
       }
     </div>
