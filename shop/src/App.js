@@ -24,6 +24,9 @@ function App() {
   let [isPending, startTransition] = useTransition();
   let state1 = useDeferredValue(name);
 
+  let [count, setCount] = useState(0);
+  let [age, setAge] = useState(20);
+
   let result = useQuery('name', ()=>
     axios.get('https://codingapple1.github.io/userdata.json')
     .then((a)=>{ return a.data })
@@ -51,8 +54,32 @@ function App() {
     if (btnCnt == 2) setUrlBtn(false);
   }
 
+  // async스럽게 순차적으로 실행하고 싶을 때 해결책은 useEffect
+  useEffect(()=>{
+    if ( count != 0 && count < 3 ) {
+      setAge(age+1)
+    }
+  }, [count]) 
+
    return (
     <div className="App"> 
+
+    {/* 
+    해당 코드의 문제점 / 22까지만 오르게 해놨는데 23부터도 정상동작함
+    async 함수는 오래 걸린다 싶으면 다음줄 코드부터 실행하기 떄문에, 순차적으로 실행할 코드가 필요하다.
+    */}
+    {/* <button onClick={()=>{
+      setCount(count+1);
+      if ( count < 3 ) {
+        setAge(age+1);
+      }          
+    }}>누르면한살먹기</button>  */}
+
+    <button onClick={()=>{
+      setCount(count+1);
+    }}>누르면한살먹기</button> 
+
+    <p>{age}</p>
 
     <div>
       {/* 
